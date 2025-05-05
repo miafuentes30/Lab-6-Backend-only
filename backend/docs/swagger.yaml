@@ -1,0 +1,181 @@
+openapi: 3.0.0
+info:
+  title: TV Series API
+  description: API para gestionar series de TV y Anime
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api
+    description: Local server
+
+paths:
+  /series:
+    get:
+      summary: Obtener todas las series
+      parameters:
+        - name: status
+          in: query
+          description: Filtrar por estado
+          schema:
+            type: string
+            enum: [All, Plan to Watch, Watching, Dropped, Completed]
+        - name: order
+          in: query
+          description: Ordenar por ranking
+          schema:
+            type: string
+            enum: [Ascending, Descending]
+      responses:
+        '200':
+          description: Lista de series
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Serie'
+    post:
+      summary: Crear una nueva serie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Serie'
+      responses:
+        '201':
+          description: Serie creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Serie'
+
+  /series/{id}:
+    get:
+      summary: Obtener una serie por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Serie encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Serie'
+        '404':
+          description: Serie no encontrada
+    put:
+      summary: Actualizar una serie existente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Serie'
+      responses:
+        '204':
+          description: Serie actualizada
+    delete:
+      summary: Eliminar una serie
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Serie eliminada
+
+  /series/{id}/status:
+    patch:
+      summary: Actualizar el estado de una serie
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [Plan to Watch, Watching, Dropped, Completed]
+      responses:
+        '204':
+          description: Estado actualizado
+
+  /series/{id}/episode:
+    patch:
+      summary: Incrementar el episodio actual
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Episodio incrementado
+
+  /series/{id}/upvote:
+    patch:
+      summary: Aumentar la puntuación de una serie
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Puntuación aumentada
+
+  /series/{id}/downvote:
+    patch:
+      summary: Disminuir la puntuación de una serie
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Puntuación disminuida
+
+components:
+  schemas:
+    Serie:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+        status:
+          type: string
+          enum: [Plan to Watch, Watching, Dropped, Completed]
+        last_episode:
+          type: integer
+        total_episodes:
+          type: integer
+        ranking:
+          type: integer
+      required:
+        - title

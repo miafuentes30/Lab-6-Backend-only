@@ -1,0 +1,45 @@
+API de Gestión de Series de TV/Anime
+
+Esta API permite a los usuarios gestionar su lista de series de TV o Anime. Los endpoints disponibles son:
+
+1. Obtener todas las series
+   - Método: GET
+   - Endpoint: /api/series
+   - Parámetros opcionales:
+     * status: Filtrar por estado (All, Plan to Watch, Watching, Dropped, Completed)
+     * order: Ordenar por ranking (Ascending, Descending)
+
+2. Obtener una serie por ID
+   - Método: GET
+   - Endpoint: /api/series/{id}
+
+3. Crear una nueva serie
+   - Método: POST
+   - Endpoint: /api/series
+   - Body: JSON con los datos de la serie (title, status, last_episode, total_episodes, ranking)
+
+4. Actualizar una serie existente
+   - Método: PUT
+   - Endpoint: /api/series/{id}
+   - Body: JSON con los nuevos datos de la serie
+
+5. Eliminar una serie
+   - Método: DELETE
+   - Endpoint: /api/series/{id}
+
+6. Actualizar el estado de una serie
+   - Método: PATCH
+   - Endpoint: /api/series/{id}/status
+   - Body: JSON con el nuevo estado
+
+7. Incrementar el episodio actual
+   - Método: PATCH
+   - Endpoint: /api/series/{id}/episode
+
+8. Aumentar la puntuación de una serie
+   - Método: PATCH
+   - Endpoint: /api/series/{id}/upvote
+
+9. Disminuir la puntuación de una serie
+   - Método: PATCH
+   - Endpoint: /api/series/{id}/downvote
