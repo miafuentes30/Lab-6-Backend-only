@@ -20,9 +20,9 @@ Backend para gestionar series de TV y Anime, desarrollado en Go y PostgreSQL.
 2. Descargar dependencias:
     go mod tidy
 
-3. Documentación swagger
+3. Documentación swagger:
     go install github.com/swaggo/swag/cmd/swag@latest
     swag init -g main.go -o docs
 
-4. Correr Docker
+4. Correr Docker:
     docker-compose up --build
